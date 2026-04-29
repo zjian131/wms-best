@@ -1,0 +1,12 @@
+.trae
+.DS_Store
+Thumbs.db
+node_modules
+vendor
+*.log
+.env
+.env.local
+backend/storage/logs/*
+backend/storage/framework/*
+backend/bootstrap/cache/*
+frontend/dist

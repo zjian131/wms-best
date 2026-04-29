@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 如果是已安装状态，直接访问 public 目录的文件
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^(.+)$ /public/$1 [L]
+
+    # 未安装时，将所有请求重定向到 install
+    RewriteCond %{REQUEST_URI} !^/install
+    RewriteCond %{REQUEST_URI} !^/public
+    RewriteCond %{REQUEST_URI} !^/api
+    RewriteCond %{REQUEST_URI} !^/admin
+    RewriteCond %{DOCUMENT_ROOT}/.installed !-f
+    RewriteRule ^(.*)$ /install/ [L,R=302]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+php_flag display_errors off

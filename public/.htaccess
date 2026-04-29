@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteBase /
+
+    RewriteCond %{REQUEST_URI} ^/install(/.*)?$
+    RewriteRule ^install(/.*)?$ /install/index.php [L,QSA]
+
+    RewriteCond %{REQUEST_URI} ^/api(/.*)?$
+    RewriteRule ^api(/.*)?$ /public/api/index.php [L,QSA]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)$ index.php?_route=$1 [L,QSA]
+
+    RewriteCond %{REQUEST_URI} !^/install
+    RewriteCond %{REQUEST_URI} !^/api
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^admin/(.*)$ /public/admin/$1 [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+php_flag display_errors off
+php_flag log_errors on
